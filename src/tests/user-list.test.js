@@ -1,4 +1,4 @@
-import {UserList} from "../components/profile/userList";
+import {UserList} from "../components/profile/user-list";
 import {screen, render} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";
 import {findAllUsers} from "../services/users-service";
@@ -20,6 +20,7 @@ test('user list renders static user array', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
+// maybe because i dont have nasa
 test('user list renders async', async () => {
   const users = await findAllUsers();
   render(
