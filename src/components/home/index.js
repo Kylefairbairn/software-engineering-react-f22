@@ -3,6 +3,7 @@ import Tuits from "../tuits";
 import * as service from "../../services/tuits-service";
 import {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
+import {createTuitByUser} from "../../services/tuits-service";
 
 const Home = () => {
   const location = useLocation();
@@ -24,8 +25,8 @@ const Home = () => {
     findTuits()
     return () => {isMounted = false;}
   }, []);
-  const createTuit = () =>
-      service.createTuit(userId, {tuit})
+  const createTuitByUser = () =>
+      service.createTuitByUser(userId, {tuit})
           .then(findTuits)
   const deleteTuit = (tid) =>
       service.deleteTuit(tid)
@@ -57,7 +58,7 @@ const Home = () => {
                   <i className="far fa-map-location me-3"></i>
                 </div>
                 <div className="col-2">
-                  <a onClick={createTuit}
+                  <a onClick={createTuitByUser}
                      className={`btn btn-primary rounded-pill fa-pull-right
                                   fw-bold ps-4 pe-4`}>
                     Tuit

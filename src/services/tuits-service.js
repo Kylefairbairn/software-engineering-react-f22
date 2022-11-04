@@ -1,6 +1,7 @@
 import axios from "axios";
+import {findAllUsers} from "./users-service";
 //const BASE_URL = "http://my-node-express-project-env.eba-hxq4pgvm.us-east-1.elasticbeanstalk.com"
-const BASE_URL = "http://localhost:4000/";
+const BASE_URL = "http://localhost:4000";
 const TUITS_API = `${BASE_URL}/api/tuits`;
 const USERS_API = `${BASE_URL}/api/users`;
 
@@ -16,7 +17,7 @@ export const findTuitByUser = (uid) =>
   axios.get(`${USERS_API}/${uid}/tuits`)
     .then(response => response.data);
 
-export const createTuit = (uid, tuit) =>
+export const createTuitByUser = (uid, tuit) =>
   axios.post(`${USERS_API}/${uid}/tuits`, tuit)
     .then(response => response.data);
 
@@ -27,3 +28,10 @@ export const updateTuit = (tid, tuit) =>
 export const deleteTuit = (tid) =>
   axios.delete(`${TUITS_API}/${tid}`)
     .then(response => response.data);
+
+const service = {
+    findAllTuits,
+    deleteTuit
+}
+
+export default service;

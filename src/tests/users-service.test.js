@@ -108,7 +108,7 @@ describe('findUserById',  () => {
 describe('findAllUsers',  () => {
 
   // sample users we'll insert to then retrieve
-  const usernames = [
+  let usernames = [
     "larry", "curley", "moe"
   ];
 
@@ -125,16 +125,17 @@ describe('findAllUsers',  () => {
   );
 
   // clean up after ourselves
-  afterAll(() =>
+  afterAll( () =>
     // delete the users we inserted
     usernames.map(username =>
-      deleteUsersByUsername(username)
+        deleteUsersByUsername(username)
     )
   );
 
   test('can retrieve all users from REST API', async () => {
     // retrieve all the users
     const users = await findAllUsers();
+
 
     // there should be a minimum number of users
     expect(users.length).toBeGreaterThanOrEqual(usernames.length);
@@ -149,6 +150,7 @@ describe('findAllUsers',  () => {
       expect(user.username).toEqual(username);
       expect(user.password).toEqual(`${username}123`);
       expect(user.email).toEqual(`${username}@stooges.com`);
+
     });
   });
 });
