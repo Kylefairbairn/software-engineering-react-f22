@@ -26,8 +26,10 @@ export const updateTuit = (tid, tuit) =>
     .then(response => response.data);
 
 export const deleteTuit = (tid) =>
-  axios.delete(`${TUITS_API}/${tid}`)
-    .then(response => response.data);
+{
+    return axios.delete(`${TUITS_API}/${tid}`)
+        .then(response => response.data);
+}
 
 const service = {
     findAllTuits,

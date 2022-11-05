@@ -1,4 +1,5 @@
 import {createTuitByUser, deleteTuit, findAllTuits, findTuitById} from '../services/tuits-service'
+import * as Console from "console";
 
 describe('can create tuit with REST API', () => {
 
@@ -29,7 +30,7 @@ describe('can delete tuit with REST API',  () => {
 
     let dummyTuit = {
          postedBy:  "635fc04570097e412eba2b92",
-         tuit: "please delete!"
+         tuit: "Tuit AAA"
      };
 
      beforeAll(async () => {
@@ -71,7 +72,7 @@ describe('can retrieve a tuit by their primary key with REST API', () => {
 
         let findTuit = await findTuitById(newTuit._id);
 
-        expect(findTuit.postedBy._id).toEqual(newTuit.postedBy);
+        expect(findTuit._id).toEqual(newTuit._id);
         expect(findTuit.tuit).toEqual(newTuit.tuit);
     })
 
@@ -85,22 +86,43 @@ describe('can retrieve all tuits with REST API',  () => {
        email: "lex@gmail.com"
    }
   let dummyTuits = [
-      {postedBy:"636280506fb279cac614c412", tuit:'computer science is cool'},
+      {postedBy:"636280506fb279cac614c412", tuit:'Test 111'},
       {postedBy:"636280506fb279cac614c412", tuit:'BJJ rocks!'},
       {postedBy:"636280506fb279cac614c412", tuit:'wrestling is an art'}];
+   let actualTuits = []
 
 
     beforeAll( () => {
         dummyTuits = dummyTuits.map(async eachTuit => {
-            eachTuit = await createTuitByUser(eachTuit.postedBy, eachTuit)
+            const actualTuit = await createTuitByUser(eachTuit.postedBy, eachTuit)
+            console.log(actualTuit._id)
+            actualTuits.push(actualTuit)
         })
         return dummyTuits
     })
 
-  afterAll(()=> {
-      dummyTuits.map(tuit =>
-        deleteTuit(tuit._id.toString())
+  afterAll( ()=> {
+      console.log('after all')
+       const qwe = actualTuits.map( async (tuit) =>
+       {
+           console.log(tuit._id)
+           let status
+           try {
+               status = await deleteTuit(tuit._id)
+               console.log(status)
+           } catch (e) {
+               console.log(e)
+           }
+           return status
+       }
       )
+      // console.log(dummyTuits)
+      // Promise.all(dummyTuits)
+      //     .then(statuses => {
+      //         console.log(statuses)
+      //     })
+//      console.log(dummyTuits)
+      return qwe
   });
 
   test('find all tuits', async () => {
