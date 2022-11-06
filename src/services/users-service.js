@@ -32,7 +32,8 @@ export const findUserByCredentials = (credentials) =>
     .then(response => response.data);
 
 const service = {
-  findAllUsers
+  findAllUsers,
+    deleteUser,deleteUsersByUsername
 }
 
 export default service;

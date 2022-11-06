@@ -1,7 +1,7 @@
 import {
   createUser,
   deleteUsersByUsername, findAllUsers,
-  findUserById
+  findUserById,deleteUser
 } from "../services/users-service";
 
 describe('createUser', () => {
@@ -12,12 +12,6 @@ describe('createUser', () => {
     email: 'ellenripley@aliens.com'
   };
 
-  // setup test before running test
-  beforeAll(() => {
-    // remove any/all users to make sure we create it in the test
-    return deleteUsersByUsername(ripley.username);
-  })
-
   // clean up after test runs
   afterAll(() => {
     // remove any data we created
@@ -25,10 +19,10 @@ describe('createUser', () => {
   })
 
   test('can insert new users with REST API', async () => {
-    // insert new user in the database
+    //insert new user in the database
     const newUser = await createUser(ripley);
 
-    // verify inserted user's properties match parameter user
+    //verify inserted user's properties match parameter user
     expect(newUser.username).toEqual(ripley.username);
     expect(newUser.password).toEqual(ripley.password);
     expect(newUser.email).toEqual(ripley.email);
@@ -38,32 +32,34 @@ describe('createUser', () => {
 describe('deleteUsersByUsername', () => {
 
   // sample user to delete
-  const sowell = {
+  let sowell = {
     username: 'thommas_sowell',
     password: 'compromise',
     email: 'compromise@solutions.com'
   };
 
+
   // setup the tests before verification
-  beforeAll(() => {
+  beforeAll(  async () => {
     // insert the sample user we then try to remove
-    return createUser(sowell);
+    sowell = await createUser(sowell);
   });
 
-  // clean up after test runs
-  afterAll(() => {
+  // //clean up after test runs
+  afterAll(async () => {
     // remove any data we created
-    return deleteUsersByUsername(sowell.username);
+    return await deleteUser(sowell._id);
   })
 
   test('can delete users from REST API by username', async () => {
-    // delete a user by their username. Assumes user already exists
-    const status = await deleteUsersByUsername(sowell.username);
+    // delete a user by PK. Assumes user already exists
+    const status = await deleteUser(sowell._id);
 
     // verify we deleted at least one user by their username
     expect(status.deletedCount).toBeGreaterThanOrEqual(1);
   });
 });
+
 
 describe('findUserById',  () => {
   // sample user we want to retrieve
@@ -73,21 +69,17 @@ describe('findUserById',  () => {
     email: 'wealth@nations.com'
   };
 
-  // setup before running test
-  beforeAll(() => {
-    // clean up before the test making sure the user doesn't already exist
-    return deleteUsersByUsername(adam.username)
-  });
-
   // clean up after ourselves
-  afterAll(() => {
+  afterAll( () => {
     // remove any data we inserted
-    return deleteUsersByUsername(adam.username);
+    return deleteUsersByUsername(adam.username)
+
   });
 
   test('can retrieve user from REST API by primary key', async () => {
-    // insert the user in the database
+    //insert the user in the database
     const newUser = await createUser(adam);
+
 
     // verify new user matches the parameter user
     expect(newUser.username).toEqual(adam.username);
@@ -97,10 +89,11 @@ describe('findUserById',  () => {
     // retrieve the user from the database by its primary key
     const existingUser = await findUserById(newUser._id);
 
-    // verify retrieved user matches parameter user
+    //verify retrieved user matches parameter user
     expect(existingUser.username).toEqual(adam.username);
     expect(existingUser.password).toEqual(adam.password);
     expect(existingUser.email).toEqual(adam.email);
+
   });
 });
 

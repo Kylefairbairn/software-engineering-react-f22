@@ -5,6 +5,8 @@ import Tuit from "../components/tuits/tuit";
 import {findAllTuits} from "../services/tuits-service";
 import Tuits from "../components/tuits";
 
+
+// finds all tuits and checks the UI for a user
 test('user list renders async', async () => {
     const tuits = await findAllTuits();
     render(

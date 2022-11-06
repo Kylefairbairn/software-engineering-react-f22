@@ -10,7 +10,7 @@ import Tuits from "../components/tuits";
 
 jest.mock('axios');
 
-
+// mock data
 const MOCKED = [
     {
         _id: "000000000000000000000000",
@@ -43,7 +43,7 @@ const MOCKED = [
         tuit: "charlie's tuit"
     }]
 
-
+// takes in mock data to renders each username and checks the UI
 test('tuit list renders static tuit array', () => {
     render(
         <HashRouter>
@@ -52,6 +52,7 @@ test('tuit list renders static tuit array', () => {
 
     MOCKED.map(tuit => {
         let username = tuit.postedBy.username
+        // gets each username and checks to ensure it is rendered
         const elementCheck = screen.getAllByText(`${username}@${username} -`)
         elementCheck.forEach(
             username => expect(username).toBeInTheDocument()
@@ -60,6 +61,7 @@ test('tuit list renders static tuit array', () => {
 });
 
 
+// finds all tuits and checks the UI rendered
 test('tuit list renders mocked', async () => {
     //
     axios.get.mockImplementation(() =>
@@ -74,5 +76,12 @@ test('tuit list renders mocked', async () => {
         </HashRouter>);
 
     const tuit = screen.getByText(/alice's tuit/i);
+    const tuit2 = screen.getByText(/bob's tuit/i);
+    const tuit3 = screen.getByText(/charlie's tuit/i)
+
+    // testing all mocked tuits
     expect(tuit).toBeInTheDocument();
+    expect(tuit2).toBeInTheDocument();
+    expect(tuit3).toBeInTheDocument();
+
 });

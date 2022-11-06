@@ -5,6 +5,7 @@ import {findAllUsers} from "../services/users-service";
 import axios from "axios";
 
 
+// tests rendered mock users
 const MOCKED_USERS = [
   {username: 'ellen_ripley', password: 'lv426', email: 'repley@weyland.com', _id: "123"},
   {username: 'sarah_conor', password: 'illbeback', email: 'sarah@bigjeff.com', _id: "234"},
@@ -34,7 +35,7 @@ describe("static array", () => {
 
 
 
-
+// tests async mocked users and ensures that they get rendered
 describe("user list renders mocked ", () => {
 
   test('user list renders mocked', async () => {
