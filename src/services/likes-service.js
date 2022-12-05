@@ -7,6 +7,7 @@ const api = axios.create({
     withCredentials: true
 });
 
+// used in toggle
 export const userLikesTuit = (uid, tid) =>
     api.put(`${USERS_API}/${uid}/likes/${tid}`)
         .then(response => response.data);
