@@ -1,5 +1,6 @@
 import Tuit from "./tuit";
 import * as likesService from "../../services/likes-service";
+import * as dislikesService from "../../services/dislike-service";
 
 
 const Tuits = ({tuits = [], deleteTuit,
@@ -7,6 +8,11 @@ const Tuits = ({tuits = [], deleteTuit,
 
     const likeTuit = (tuit) =>
         likesService.userLikesTuit("me", tuit._id)
+            .then(refreshTuits)
+            .catch(e => alert(e))
+
+    const dislikeTuit = (tuit) =>
+        dislikesService.userTogglesTuitDislikes("me", tuit._id)
             .then(refreshTuits)
             .catch(e => alert(e))
 
@@ -18,6 +24,7 @@ const Tuits = ({tuits = [], deleteTuit,
                         <Tuit key={tuit._id}
                               deleteTuit={deleteTuit}
                               likeTuit={likeTuit}
+                              dislikeTuit={dislikeTuit}
                               tuit={tuit}/>)
                 }
             </ul>

@@ -1,27 +1,48 @@
 import React from "react";
 
-const TuitStats = ({tuit, likeTuit}) => {
+const TuitStats = ({tuit, likeTuit, dislikeTuit}) => {
     return (
-        <div className="row">
-            ...
+        <div className="row mt-2">
             <div className="col">
-        <span onClick={() => likeTuit(tuit)}>
-        {
-            tuit.stats.likes > 0 &&
-            <i className="fas fa-heart"
-    style={{color: 'red'}}/>
-        }
-            {
-                tuit.stats.likes <= 0 &&
-                <i className="far fa-heart"/>
-            }
-            {tuit.stats && tuit.stats.likes}
-        </span>
+                <i className="far fa-message pe-2"></i>
+                {tuit.stats && tuit.stats.replies}
             </div>
-            ...
+            <div className="col">
+                <i className="far fa-retweet pe-2"></i>
+                {tuit.stats && tuit.stats.retuits}
+            </div>
+            <div className="col">
+                <span onClick={() => likeTuit(tuit)}>
+                {
+                    tuit.stats.likes > 0 &&
+                    <i className="fas fa-thumbs-up pe-2"
+                       style={{color: 'blue'}}></i>
+                }
+                    {
+                        tuit.stats.likes <= 0 &&
+                        <i className="far fa-thumbs-up pe-2"></i>
+                    }
+                    {tuit.stats && tuit.stats.likes}
+                </span>
+            </div>
+            <div className={'col'}>
+                <span onClick={() => dislikeTuit(tuit)}>
+                {
+                    tuit.stats.dislikes > 0 &&
+                    <i className="fas fa-thumbs-down pe-2"
+                       style={{color: 'red'}}></i>
+                }
+                    {
+                        tuit.stats.dislikes <= 0 &&
+                        <i className="far fa-thumbs-down pe-2"></i>
+                    }
+                    {tuit.stats && tuit.stats.dislikes}
+                </span>
+            </div>
+            <div className="col">
+                <i className="fa-light fa-arrow-up-from-square"></i>
+            </div>
         </div>
     );
 }
 export default TuitStats
-
-
